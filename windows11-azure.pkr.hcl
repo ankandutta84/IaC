@@ -58,7 +58,7 @@ source "azure-arm" "windows11" {
   os_type         = "Windows"
   image_publisher = "MicrosoftWindowsDesktop"
   image_offer     = "windows-11"
-  image_sku       = "win11-23h2-pro"
+  image_sku       = "win11-25h2-pro"
 
   # VM Configuration
   vm_size = var.vm_size
