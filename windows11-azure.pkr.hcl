@@ -8,6 +8,10 @@ packer {
       version = ">= 0.16.0"
       source  = "github.com/rgl/windows-update"
     }
+    ansible = {
+      version = ">= 1.1.0"
+      source  = "github.com/hashicorp/ansible"
+    }
   }
 }
 
@@ -38,7 +42,7 @@ variable "vm_size" {
 
 variable "image_name" {
   type    = string
-  default = "Windows11-Pro"
+  default = "Windows11-25h2Pro"
 }
 
 source "azure-arm" "windows11" {
@@ -87,7 +91,7 @@ build {
     update_limit = 25
   }
 
-  # Install Chocolatey
+  # Install Chocolatey (required for Ansible win_chocolatey module)
   provisioner "powershell" {
     inline = [
       "Set-ExecutionPolicy Bypass -Scope Process -Force",
@@ -96,12 +100,15 @@ build {
     ]
   }
 
-  # Install common tools (optional - customize as needed)
-  provisioner "powershell" {
-    inline = [
-      "choco install googlechrome -y",
-      "choco install 7zip -y",
-      "choco install notepadplusplus -y"
+  # Install software using Ansible
+  provisioner "ansible" {
+    playbook_file = "ansible/playbook.yml"
+    use_proxy     = false
+    user          = "packer"
+    extra_arguments = [
+      "-e", "ansible_connection=winrm",
+      "-e", "ansible_winrm_transport=ntlm",
+      "-e", "ansible_winrm_server_cert_validation=ignore"
     ]
   }
 

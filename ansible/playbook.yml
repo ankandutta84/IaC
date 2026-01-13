@@ -1,0 +1,37 @@
+---
+- name: Configure Windows 11 Pro Image
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: Install Google Chrome
+      win_chocolatey:
+        name: googlechrome
+        state: present
+
+    - name: Install 7-Zip
+      win_chocolatey:
+        name: 7zip
+        state: present
+
+    - name: Install Notepad++
+      win_chocolatey:
+        name: notepadplusplus
+        state: present
+
+    # Add more software installations as needed
+    # Examples:
+    # - name: Install Visual Studio Code
+    #   win_chocolatey:
+    #     name: vscode
+    #     state: present
+
+    # - name: Install Git
+    #   win_chocolatey:
+    #     name: git
+    #     state: present
+
+    # - name: Install Python
+    #   win_chocolatey:
+    #     name: python
+    #     state: present
