@@ -1,0 +1,12 @@
+# Packer build artifacts
+*.log
+manifest.json
+packer-build.log
+
+# Temporary files
+*.tmp
+.DS_Store
+
+# Packer cache
+packer_cache/
+crash.log
